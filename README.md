@@ -74,12 +74,12 @@ HytaleServer.jar
 - Plugin manifest: `src/main/resources/manifest.json`
 - Server API JAR (compile-time): `HytaleServer.jar` (at the project root)
 - Build config: `build.gradle.kts`
-- Build output (server-ready JAR): `mods/ExamplePlugin-all.jar`
+- Build output (server-ready JAR): `mods/StaffChat-all.jar`
 
 Plugin entrypoint:
 
-- Main class: `src/main/kotlin/com/loyfael/exampleplugin/ExamplePlugin.kt`
-- In the manifest, the `Main` field must exactly match the class (package + class name): `com.loyfael.exampleplugin.ExamplePlugin`
+- Main class: `src/main/kotlin/com/loyfael/exampleplugin/StaffChatPlugin.kt`
+- In the manifest, the `Main` field must exactly match the class (package + class name): `com.loyfael.exampleplugin.StaffChatPlugin`
 
 ## 4) Most important step: put the server JAR at the project root
 
@@ -117,7 +117,7 @@ The server-ready JAR is generated here:
 
 This project produces **one single** server-ready JAR:
 
-- `mods/ExamplePlugin-all.jar`
+- `mods/StaffChat-all.jar`
 
 Why only one JAR?
 
@@ -138,7 +138,7 @@ Why only one JAR?
 Example:
 
 ```bash
-cp mods/ExamplePlugin-all.jar /path/to/your/server/mods/
+cp mods/StaffChat-all.jar /path/to/your/server/mods/
 ```
 
 3) Start the server and check the logs.
@@ -154,14 +154,14 @@ Important fields:
 - `Group` + `Name`: plugin identifier → `Group:Name`
 - `Version`: plugin version
 - `Description`: description text
-- `Main`: **main class** (this project: `com.loyfael.exampleplugin.ExamplePlugin`)
+- `Main`: **main class** (this project: `com.loyfael.exampleplugin.StaffChatPlugin`)
 - `IncludesAssetPack`: whether the plugin ships UI/assets from `src/main/resources/Common/...`
 
 During the build, Gradle replaces `${version}` with the version defined in `build.gradle.kts`.
 
 ## 9) Where do I code? (plugin lifecycle)
 
-File: `src/main/kotlin/com/loyfael/exampleplugin/ExamplePlugin.kt`
+File: `src/main/kotlin/com/loyfael/exampleplugin/StaffChatPlugin.kt`
 
 Main methods:
 
@@ -205,11 +205,9 @@ Fix:
 Cause: wrong `Main` value in the manifest.
 
 Fix:
-
-- make sure `Main` is exactly `com.loyfael.exampleplugin.ExamplePlugin` (or your package/class)
+- make sure `Main` is exactly `com.loyfael.exampleplugin.StaffChatPlugin` (or your package/class)
 
 ### Gradle daemon weirdness
-
 Simple fix:
 
 ```bash
@@ -218,7 +216,6 @@ Simple fix:
 ```
 
 ## 12) Next steps (easy ideas)
-
 - add a `/hello` command
 - listen to a “player join” event
 - add a config via `withConfig(...)` like SimpleClaims

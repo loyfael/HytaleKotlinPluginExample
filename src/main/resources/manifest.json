@@ -1,8 +1,8 @@
 {
   "Group": "Loyfael",
-  "Name": "ExamplePlugin",
+  "Name": "StaffChat",
   "Version": "${version}",
-  "Description": "Example plugin for Hytale modding (Kotlin)",
-  "Main": "com.loyfael.exampleplugin.ExamplePlugin",
-  "IncludesAssetPack": true
+  "Description": "Simple staff chat plugin (prefix: !)",
+  "Main": "com.loyfael.exampleplugin.StaffChatPlugin",
+  "IncludesAssetPack": false
 }

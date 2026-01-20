@@ -26,7 +26,6 @@ repositories {
 dependencies {
     compileOnly(files(rootProject.layout.projectDirectory.file("HytaleServer.jar")))
     implementation(kotlin("stdlib"))
-    implementation("org.xerial:sqlite-jdbc:3.49.1.0")
 }
 
 // Replace version placeholder in manifest.json with gradle version
@@ -40,13 +39,13 @@ val modsDir = rootProject.layout.projectDirectory.dir("mods")
 
 // Disable publishing the standard jar to mods to avoid duplicates
 tasks.named<Jar>("jar") {
-    archiveBaseName.set("ExamplePlugin")
+    archiveBaseName.set("StaffChat")
     // Keep default destination (build/libs) and avoid placing in mods
 }
 
 tasks.named<ShadowJar>("shadowJar") {
     destinationDirectory.set(modsDir)
-    archiveBaseName.set("ExamplePlugin")
+    archiveBaseName.set("StaffChat")
     archiveVersion.set("")  // Remove version from filename
     archiveClassifier.set("all")
     mergeServiceFiles()
