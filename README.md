@@ -224,3 +224,6 @@ Simple fix:
 - add a config via `withConfig(...)` like SimpleClaims
 
 Tell me what you want first and I’ll scaffold it in Kotlin.
+
+## 13) How found my other plugins?
+Simply search in my other branches ! ;)
