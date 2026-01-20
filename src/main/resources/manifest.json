@@ -1,0 +1,8 @@
+{
+  "Group": "Loyfael",
+  "Name": "ExamplePlugin",
+  "Version": "${version}",
+  "Description": "Example plugin for Hytale modding (Kotlin)",
+  "Main": "com.loyfael.exampleplugin.ExamplePlugin",
+  "IncludesAssetPack": true
+}
