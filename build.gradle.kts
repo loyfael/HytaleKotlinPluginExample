@@ -25,6 +25,9 @@ repositories {
 
 dependencies {
     compileOnly(files(rootProject.layout.projectDirectory.file("HytaleServer.jar")))
+    // Optional integration: lets the plugin query LuckPerms directly when installed on the server.
+    // Kept as compileOnly so it won't be bundled into the fat-jar.
+    compileOnly("net.luckperms:api:5.4")
     implementation(kotlin("stdlib"))
 }
 
