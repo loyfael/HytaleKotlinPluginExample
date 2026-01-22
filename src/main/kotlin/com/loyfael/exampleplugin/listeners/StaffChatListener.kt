@@ -26,7 +26,8 @@ object StaffChatListener {
     }
 
     fun onPlayerChat(event: PlayerChatEvent) {
-        val rawMessage = readChatMessage(event) ?: return
+        val rawMessage = readChatMessage(event)
+        if (rawMessage == null) return
         if (!rawMessage.startsWith(PREFIX)) return
 
         val stripped = rawMessage.removePrefix(PREFIX).trimStart()
@@ -57,9 +58,10 @@ object StaffChatListener {
         // Fallback if recipients list is not exposed by this server build.
         // Cancel the normal chat event, and at least echo back to the sender.
         setCancelled(event, true)
+        val senderName = readSenderName(event) ?: "You"
         sendToSender(
             event,
-            Message.raw("[Staff] ${readSenderName(event) ?: "You"}: $stripped")
+            Message.raw("[Staff] $senderName: $stripped")
                 .color("#FFAA00")
                 .bold(true)
         )
@@ -123,10 +125,20 @@ object StaffChatListener {
     private fun senderHasPermission(event: PlayerChatEvent, permission: String): Boolean {
         // Prefer LuckPerms if it's installed and we can resolve a UUID.
         val senderRef = getSenderRef(event)
-        val senderUuid = senderRef?.let { readUuid(it) }
-            ?: (tryInvoke(event, "getPlayer") ?: tryGetField(event, "player"))?.let { readUuid(it) }
+
+        var senderUuid: UUID? = null
+        if (senderRef != null) {
+            senderUuid = readUuid(senderRef)
+        }
+        if (senderUuid == null) {
+            val playerObject = tryInvoke(event, "getPlayer") ?: tryGetField(event, "player")
+            if (playerObject != null) {
+                senderUuid = readUuid(playerObject)
+            }
+        }
+
         if (senderUuid != null) {
-            val lpResult = hasPermissionViaLuckPerms(senderUuid, permission)
+            val lpResult = hasPermissionViaLuckPerms(senderUuid!!, permission)
             if (lpResult != null) return lpResult
         }
 
@@ -184,7 +196,8 @@ object StaffChatListener {
             return null
         }
 
-        val user = api.userManager.getUser(uuid) ?: return null
+        val user = api.userManager.getUser(uuid)
+        if (user == null) return null
 
         val queryOptions = try {
             api.contextManager.getQueryOptions(user)
@@ -238,6 +251,11 @@ object StaffChatListener {
         }
     }
 
+    /**
+     * Gets a field value via reflection, ignoring failures.
+     * Used for compatibility across different server versions.
+     * 
+     */
     private fun tryGetField(target: Any, fieldName: String): Any? {
         return try {
             val publicField = target.javaClass.fields.firstOrNull { it.name == fieldName }
@@ -252,6 +270,12 @@ object StaffChatListener {
         }
     }
 
+    /**
+     * Sets a field value via reflection, ignoring failures.
+     * Used for compatibility across different server versions.
+     * 
+     * For beginner: don't use this unless necessary!
+     */
     private fun trySetField(target: Any, fieldName: String, value: Any?) {
         try {
             val publicField = target.javaClass.fields.firstOrNull { it.name == fieldName }
