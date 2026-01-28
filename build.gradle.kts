@@ -32,9 +32,11 @@ dependencies {
 }
 
 // Replace version placeholder in manifest.json with gradle version
+val currentVersion = project.version.toString()
 tasks.named<ProcessResources>("processResources") {
     filesMatching("manifest.json") {
-        expand("version" to project.version)
+        // Use a precomputed value so expand does not access project at task execution time
+        expand("version" to currentVersion)
     }
 }
 

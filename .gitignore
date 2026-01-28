@@ -26,3 +26,5 @@ mods
 gradle
 bin
 .hytale-downloader-credentials.json
+hytale-downloader-windows-amd64.exe
+gradlew.bat
